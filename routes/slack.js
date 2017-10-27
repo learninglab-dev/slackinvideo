@@ -18,14 +18,14 @@ router.get('/', function(req, res, next) {
 router.get('/channels', function(req, res, next) {
   slack.channels.list({token: process.env.SLACK_TOKEN}, (err, data) => {
     console.log(JSON.stringify(data, null, 4));
-      res.render('list', { title: 'Slack Channels List', tabTitle: 'Slack Channels List', list: data.channels, listTitle: "channels and ids"})
+      res.render('list_channels', { title: 'Slack Channels List', tabTitle: 'Slack Channels List', list: data.channels, listTitle: "channels and ids"})
   });
 });
 
 router.get('/users', function(req, res, next) {
   slack.users.list({token: process.env.SLACK_TOKEN}, (err, data) => {
     console.log(JSON.stringify(data, null, 4));
-      res.render('list', { title: 'Slack Users List', tabTitle: 'Slack Users List', list: data.members, listTitle: "users and ids"})
+      res.render('list_users', { title: 'Slack Users List', tabTitle: 'Slack Users List', list: data.members, listTitle: "users and ids"})
   });
 });
 

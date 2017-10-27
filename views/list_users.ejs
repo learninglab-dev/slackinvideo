@@ -2,7 +2,7 @@
   <html lang="en-US">
   <head>
     <% include partials/head %>
-    <link rel='stylesheet' href='/css/m2s_output.css'>
+    <link rel='stylesheet' href='/stylesheets/slack_lists.css'>
   </head>
   <body>
     <h1><%= title %></h1>
@@ -20,9 +20,9 @@
         <td>
           <strong>Name: </strong><%= element.name %>
         </td>
-        <td>
-          <strong>Id: </strong><%= element.id %>
-        </td>
+          <td>
+            <strong>Id: </strong><%= element.id %>
+          </td>
       </tr>
       <%
         });
