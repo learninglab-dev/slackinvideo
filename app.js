@@ -4,18 +4,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var slack = require('./routes/slack');
+var library = require('./routes/library')
 require('dotenv').config();
 
 var app = express();
 
+// app.use(helmet());
+
 var mongoose = require('mongoose');
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/slackinvideo';
+// var mongoDB = 'mongodb://127.0.0.1/slackinvideo';
+var mongoDB = process.env.MLAB_URL;
+
 mongoose.connect(mongoDB, {
   useMongoClient: true
 });
@@ -37,12 +43,14 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator() ); // Add this after the bodyParser middleware!
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/slack', slack);
+app.use('/library', slack);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
