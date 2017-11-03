@@ -17,7 +17,7 @@ exports.author_list = function(req, res, next) {
 
 // Display detail page for a specific Author
 exports.author_detail = function(req, res, next) {
-
+  
     async.parallel({
         author: function(callback) {
             Author.findById(req.params.id)

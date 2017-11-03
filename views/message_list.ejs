@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+  <html lang="en-US">
+  <head>
+    <% include partials/head %>
+    <link rel='stylesheet' href='/stylesheets/channel_hist_output.css'>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <table>
+      <%
+        list.forEach(function(element){
+      %>
+      <tr>
+        <td>
+          <strong>ts: </strong><%= element.user_id %>
+        </td>
+      </tr>
+      <%
+        });
+      %>
+    </table>
+  </body>
+<% include partials/foot %>

@@ -43,7 +43,7 @@ router.get('/channels/:channel', function(req, res, next) {
       sortedList.forEach(message => {
         console.log(JSON.stringify(message, null, 4));
         console.log("trying to save message: ");
-        var newMessage = new MessageModel({user_id:message.user});
+        var newMessage = new MessageModel(message);
         newMessage.save((err)=> {console.log("saved message")});
       });
 
