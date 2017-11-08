@@ -24,6 +24,11 @@ router.get('/users', function(req, res, next) {
   });
 });
 
+
+router.get('/install', function(req, res, next){
+  res.send('slack signup will go here')
+});
+
 // get a list of the channels
 router.get('/channels', function(req, res, next) {
   slack.channels.list({token: process.env.SLACK_TOKEN}, (err, data) => {
@@ -46,10 +51,36 @@ router.get('/channels/:channel', function(req, res, next) {
         var newMessage = new MessageModel(message);
         newMessage.save((err)=> {console.log("saved message")});
       });
-
+  slack.chat.postMessage({token: process.env.SLACK_TOKEN, channel: req.params.channel, text: "just shipped history of this channel"}, (err, data) => {});
       res.render('channel_history', { title: 'Channel History', tabTitle: 'Channel History', channel: req.params.channel, list: sortedList})
   });
 
 });
+
+router.post('/events', function(req, res, next) {
+  console.log("got a post");
+  console.log(req.body.event.username + "just posted a message");
+  if (req.body.event.username !== "slackinvideo") {
+    console.log("\n\nnow let's try to post it to " + req.body.event.channel + "\n\n");
+    console.log("\n\n\nnot posting this time\n\n\n");
+    // slack.chat.postMessage({token: process.env.SLACK_TOKEN, channel: req.body.event.channel, text: ("got it, and by it I mean the message from " + req.body.event.user + " in which they wrote '" + req.body.event.text +  "'.")}, (err, data) => {
+    //   if (err) {
+    //     console.log(err);
+    //     console.log("did the error log from the if statement?");
+    //   }
+    //   else {
+    //     console.log("hope that message posted");
+    //   }
+    // })
+  }
+  else {
+    console.log("slackinvideo just posted, but we'll ignore it");
+  }
+  var newMessage = new MessageModel(req.body.event);
+  newMessage.save((err)=> {console.log("saved message")});
+    console.log(req.body);
+    console.log(req.body.event);
+});
+
 
 module.exports = router;

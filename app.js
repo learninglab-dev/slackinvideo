@@ -5,12 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
-
+const http = require('http');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var slack = require('./routes/slack');
-var library = require('./routes/library')
+var library = require('./routes/library');
+var newslack = require('./routes/newslack');
 require('dotenv').config();
+
+// const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+// const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+// const port = process.env.PORT || 3000;
+
 
 var app = express();
 
@@ -19,8 +25,8 @@ var app = express();
 var mongoose = require('mongoose');
 
 //Set up default mongoose connection
-// var mongoDB = 'mongodb://127.0.0.1/slackinvideo';
-var mongoDB = process.env.MLAB_URL;
+var mongoDB = process.env.MONGODB_URL;
+// var mongoDB = process.env.MLAB_URL;
 
 mongoose.connect(mongoDB, {
   useMongoClient: true
@@ -51,6 +57,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/slack', slack);
 app.use('/library', library);
+app.use('/newslack', newslack);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -69,5 +76,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 module.exports = app;
